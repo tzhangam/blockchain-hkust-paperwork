@@ -1,0 +1,166 @@
+\documentclass[]{scrartcl}
+
+%opening
+\title{A Block Chain Solution for P2P Home services}
+\author{Pengshu and Liu Chengzhong}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+There is need of a platform, which enables housekeepers, or family members to hire people or do temporary home services for them. Digital platforms including 58 Home Service, ayibang.com, and Indeed are current thriving examples that fulfill this functionality. Based on  these models, we propose a block chain based solution to fulfill and improve the functionality of P2P home service platform.
+\end{abstract}
+
+\section{The business of home service}
+
+
+A home service business is a trade between labor and cash, which involves a short term employment relationship. The labor content of the employment is a home service task, such as baby sitting, gardening and snow cleaning. The employment is short term means the employment relationship lasts for no more than 24 hours.
+
+There are two types of identities involved in the business of home service. One is the employer, who offers job opportunities of  temporary home services. The other is the employee, who has home service technique of a certain type and looks for corresponding job opportunities.
+
+The business model can be employer dominated, where employer posts the job offer and employee apply for it, or employee dominated, where the employee post the availability of his/her labor and the employee acquires it, or neutral, where these 2 different types of interaction coexist.
+
+In the proposal we adopted the employee dominated model, which meets the demand and supply in the market and is used by most of the mainstream digital home service platform.
+
+In the employee dominated model, the general life cycle of a home service business is as follows:
+
+Suppose there is an employee who can do baby sitting, an a employer who needs a baby sitter in some time period \((t,t')\).
+\begin{enumerate}
+	\item The employee declares in public he/she is available for: doing the home service of baby sitting, in time period: \((t_1,t_2)\). 
+	\item  The employer searches for and finds the employee who offers :baby sitting service, in time period: \((t,t')\).
+	\item The employer communicates with the employee. 
+	
+		a) Both parties verify the actual identity of the other. 
+	 	
+	 	b) Together they draft the employment contract. \textbf{The contract} contains the following information.
+		\begin{itemize}
+			\item The start and end time of the employment.
+			\item The nature and content of the employment.
+			\item The criterion of completion of the employment.
+			\item The payment of the employment, from the employer to the employee, upon completion.
+			\item Miscellaneous important issues, if any. 	
+		\end{itemize}
+	\item[4a.] If any exception occurs in 3., , the employer and employee void the draft of contract, quit the current process and resumes to 1. and 2. respectively.
+	\item[4b.] If no exception occurs in 3., the employer and employee \textbf{commit} to the contract made in 3.. After both of them finish their commitment, the contract activates.
+	\item[5.] The employee perform the baby sitting service, as stated in the contract.
+	\item[6.] Upon completion of the service, \textbf{the employer pay the employee} as stated in the contract.
+	\item[7.] The employer and the employee \textbf{commit} to the contract. After both of them finish their commitment, the contract deactivates.
+\end{enumerate}
+
+More structures can be built into the general procedure as stated above. A most common extension is to add an evaluation step at the end of the process, where the employer may leave a \textbf{comment} on the service provided by the employee as a reference for other employers. This optional activity for the employer have helped build successful rating system as in AirBNB and Uber.
+
+The keywords highlighted in bold fonts are the crucial activities in the process, where critical information is generated. As we will show later, it is at these sensitive region where we can apply block chain solution, to enforce bulletproof bookkeeping, and ensure information integrity.
+
+
+
+
+
+\section{The Current Solutions: A brief analysis}
+
+\textbf{\textit{Brief market analysis}}
+
+\textit{//Open to correction and completion}
+
+\textit{1. Need: in high demand, especially under the context of aging-society in China
+	2. Temporary worker: high quality wanted
+	3. Trust: highly desired
+	4. Leader: no giant in this area, only 58家政 is quasi-famous, with link in WeChat wallet
+}
+\cite{GSReport}
+\cite{ZHIHU1}
+\cite{ZHIHU2}
+
+---
+
+Ask and discuss the following questions.
+\begin{itemize}
+\item In each step listed in section 2, whose benefit and right might be compromised?
+\item What does users concerns most?
+\end{itemize}
+
+
+
+
+\section{The need of a block chain solution}
+\begin{itemize}
+\item In each problem listed in section 3, please propose a possible solution to the problem if any. Can block chain help with the solution?
+\item In each step listed in section 2, can the current way of doing the business be more efficient? Can block chain help?
+\end{itemize}
+
+\textbf{\textit{Issues with block chain solution: Privacy concerns}}
+
+
+\textit{One of the greatest obstacles to the adoption of block chain in this context is the perception of a loss of consumer privacy. In effect, a block chain based system would aggregate the user’s ID, payment information, reputation, past transaction history, and reviews. It is noticeable that this is already commonly done across current range of home service platforms (58,ayibang.com) in a far less secure way (simple password control). However, users could have concerns about a distributed database that stores their sensitive personal and financial information. Ultimately, the strong level of underlying security with a block chain based solution would minimize these objections over time.}
+
+\textit{It can be expected that a block-chain-enhanced solution, with appropriate methods adopted from cryptography would be superior than current O2O and P2P solutions. Or perhaps make the platform only have the access to verification (a T/F boolean and basic info such as location instead of detailed IDs.
+}
+//Open to modification and new proposal upon implementation
+
+
+
+\section{The design of a block chain solution}
+
+\subsection{Two functionalities of home service contract on block chain}
+
+The contract is the central object we try to establish and re-einforced using block chain.
+We shall see its functionality can be divided into two parts: one is its informational functionality, another is its executional functionality.
+
+The contract has informational functionality, this means the contract contains the majority of essential information describing the business. We would like to store this chunk of information on block chain as a memorandum of the business. 
+
+The contract also has executional functionality, that it is a dynamic object whose state may change over time, corresponding to the state of the business. In home service business, the contract can be in one of the following states: active, completed and in dispute, indicating the business is initiated and in progress, completed and all clearing are done, or some exception occurs and is in dispute handling process.
+
+We propose to store the contract as a data object on block chain, adopting the methodology of smart contract building, to secure the business and resolve disputes.
+
+\subsection{The Design of Contract as a Data Object}
+
+We design the home service contract as a data object, so that we can store it on the block chain and interact with it, here is some primitive idea.
+
+In the following discussing, we use capitalized CONTRACT to specifically denote a digital data object.
+
+
+\begin{enumerate}
+	\item[Compulsory Attributes]
+
+	 CONTRACT has the following compulsory attributes: \textbf{unique contract ID}, \textbf{userIDs for employer and employee}, \textbf{status}. CONTRACT has at least the following optional attributes: \textbf{plain text of the contract}.
+
+	\item[Special Attributes] 
+
+	Date and time, payment detail, job category, reviews and ratings, should be included as optional attributes, in our actual implementation of CONTRACT.
+	
+	These are useful information for us to build a review system and job billboards. 
+	However, we should allow users to leave these more sensitive attributes in plain texts, or does not include them at all, up to their own discretion.
+
+
+	\item[Initialization]
+
+	The initialization of CONTRACT is done by a multi-sig transaction, which is signed by both the employer and employee. The transaction message contains a CONTRACT, or the reference to a CONTRACT, which should be in status “active”.	
+	
+	\item[Follow Up Interactions]
+
+	To update the status or meta data of a CONTRACT, the method is to post a transaction, with the input being the reference to the initialization transaction of CONTRACT. The transaction message contains the operation to be done on the CONTRACT. 
+	
+	Notice different interactions, making payments, deactivating, firing a dispute, and reviewing and possibly renewing CONTRACT should all be done in this format, but each requires possibly different authentication. For example, deactivating a CONTRACT should require commitment of both employer and employee, but reviewing should only require commitment of employer only. This means transactions of different types require different signature schemes. Thus the interaction scheme is not finished, and will be completed in future as the project progresses.
+
+
+\end{enumerate}
+
+\subsection{Implementation Method}
+
+Ethereum is possibly the most convenient platform for us to implement our own CONTRACT, as it already supports the implementation of generic smart contracts, and we directly uses its block chain as our ledger. 
+
+It is also possible to implement our own toy block chain, which may requires more work. But the good thing is we can play with interesting things like, issuing virtual currencies along with every initialization of CONTRACT. Also it will be more convenient to simulate and monitor a virtual market of home services, where robot agents interacts over the platform.
+
+\section{The design of the platform}
+
+If we get this far, we need to think about how the platform where people actually do business look like.
+
+Ideally the block chain runs in the background of the platform, ensuring the integrity of each deal of home service business. People simply look for home services, setting up contracts, settling payments and disputes, using interfaces provided by the platform, without knowing it is the block chain that acts as the database to support all the behaviors on the surface.
+
+
+
+\bibliography{bibfile}
+\bibliographystyle{plain}
+
+\end{document}

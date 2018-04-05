@@ -1,0 +1,81 @@
+\documentclass[]{scrartcl}
+
+%opening
+\title{Management of Case Wise Medical Record Using Block Chain}
+\author{Pengshu}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Data related to critical medical cases of patients, such as data related to radiation medication and physical operations, are of great importance to health care. Improper management of critical medical data may lead to misdiagnoses, cause disputes between patients and doctors, or even be lethal. We want to apply block chain technology to establish an robust and systematic way to manage data related to individual medical cases, ensuring better treatment for patients while providing a chance of sharing data about critical illnesses for medical research.
+\end{abstract}
+
+\section{The Problem Statement}
+Please put something here.
+
+\section{Existing Method of General Medical Record Management using Block Chain}
+Azaria et al.\cite{MedRecWhitePaper}implemented a system using block chain and smart contract to manage the access and permission off-chain medical data. In their model, the central identities involved are Provider and Patient, who collaborate to manage the medical data of Patient. Provider provides the physical storage space for the medical data of Patient, while Patient makes queries to the Provider in order to retrieve his/her medical data. 
+
+A private block chain is deployed in the system, Provider and Patient acts as nodes in the block chain network. There interaction between Provider and Patient on chain are achieved my manipulating 3 types of smart contracts. 
+
+\begin{enumerate}
+\item The issuing of virtual ID to Providers and Patients is managed by \textbf{Registrar Contract}
+
+\item The establishment of collaboration between Provider and Patient, and access verification to a certain piece of medical data is managed by \textbf{Provider-Patient-Relationship(PPR) Contract}
+
+\item The activities of updating medical data, and querying medical data, is recorded and managed by \textbf{Summary Contract}
+\end{enumerate}
+
+The medical data of Patient is stored in offchain database managed by Provider.
+Updating the medical record of Patient works as follows:
+\begin{itemize}
+\item Update of medical data of a particular Patient is received by Provider, say the doctor uploads the latest medication of Patient to Provider.
+
+\item Provider updates the entry for  Patient in the offchain database.
+
+\item Provider resolves the Provider-Patient relationship onchain, and posts transactions on block chain to update the Summary Contract and PPR contract.
+
+\item The Summary Contract fires a signal to Patient, notifying the update.
+\end{itemize}
+
+Querying the medical record of Patient works as follows:
+
+\begin{itemize}
+\item Patient send a digitally signed query request to Provider, using an offchain communication channel.
+
+\item Provider checks onchain the accessibility of the sender of query request.
+
+\item If the sender of the query request has the permission level to access the query content, Provider retrieves the corresponding query content from offchain database, and return the content to Patient.
+\end{itemize}	
+
+A few remarks to make:
+\begin{list}{}{}
+	\item \textbf{NO medical data is stored on block chain} in this model.
+	
+	\item The block chain only manages the accessibility of users to medical data, , and the Patient-Provider-Relationship, in a highly secure way. 
+	
+	\item The actual medical data is stored offchain, the data format is only dependent on the structure of offchain database, therefore the content and formatting is not restricted.
+	
+	\item \textbf{The block chain CANNOT deal with information leakage from user end.} Both Patient and Provider are responsible for the data admin in their local storage, and their offchain communication. 
+\end{list}
+
+\section{Case Wise Medical Data Management}
+We want to record in fine detail the treatment on Patient during a particular medical case, e.g. a cardiovascular operation.
+
+We want the record to be always retrievable by Patient.
+
+We want the record not temper-able once completed.
+
+(The use of block chain is more like a log of treatment.)
+
+The Patient should have their privacy over the record, the treatment log shall not be accessible to outsiders.
+
+(So it is more likely to be a private block chain. It should be a private block chain for each medical case.)
+
+We expect the doctor to update the log honestly, as frequent as possible.
+ 
+\bibliography{medbib}
+\bibliographystyle{plain}
+\end{document}
